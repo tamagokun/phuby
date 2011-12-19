@@ -3,11 +3,12 @@
 This is an effort to make this library much faster and safer by using some new features added in PHP 5.3+
 
 Important changes are:
-- nearly all `call_class_method` calls are replaced by calling the method directly.
-- all `eval()` calls have been removed
-- `Proc` and a number of other features have been replaced by using actual Closure functions rather than a string passed into `eval()`
-- Removing calls by reference where not needed
-- Namespace classes and structure libs to be loaded using PSR-0
+
+* nearly all `call_class_method` calls are replaced by calling the method directly.
+* all `eval()` calls have been removed
+* `Proc` and a number of other features have been replaced by using actual Closure functions rather than a string passed into `eval()`
+* Removing calls by reference where not needed
+* Namespace classes and structure libs to be loaded using PSR-0
 
 # phuby
 
