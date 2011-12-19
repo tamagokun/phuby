@@ -7,67 +7,69 @@ abstract class Module {
     
     static function alias($new, $old) {
         $class = get_called_class();
-        $methods = &call_class_method($class, 'methods');
+        $methods = &$class::methods();
         $methods[$new] = isset($methods[$old]) ? $methods[$old] : array(array($class, $old));
         $methods[$old]= array(array($class, $new));
     }
     
     static function alias_method($new, $old) {
         $class = get_called_class();
-        $mixins = &call_class_method($class, 'mixins');
+        $mixins = &$class::mixins();
         array_push($mixins['aliases'], array($new, $old));
-        call_class_method($class, 'alias', array($new, $old));
-        call_class_method($class, 'update_derived_modules');
+        $class::alias($new,$old);
+        $class::update_derived_modules();
     }
     
     static function alias_method_chain($method, $with) {
         $class = get_called_class();
-        call_class_method($class, 'alias_method', array($method.'_without_'.$with, $method));
-        call_class_method($class, 'alias_method', array($method, $method.'_with_'.$with));
+        $class::alias_method($method.'_without_'.$with, $method);
+        $class::alias_method($method, $method.'_with_'.$with);
     }
     
     static function aliases() {
         $class = get_called_class();
-        $mixins = call_class_method($class, 'mixins');
+        $mixins = $class::mixins();
         return $mixins['aliases'];
     }
     
     static function ancestors() {
         $class = get_called_class();
-        $mixins = call_class_method($class, 'mixins');
+        $mixins = $class::mixins();
         return $mixins['ancestors'];
     }
     
     static function extend($modules) {
         $modules = (is_array($modules)) ? $modules : func_get_args();
         $class = get_called_class();
-        $mixins = &call_class_method($class, 'mixins');
+        $mixins = &$class::mixins();
         foreach ($modules as $module) {
             if (!in_array($module, $mixins['ancestors'])) {
                 if (in_array('Module', class_parents($module))) {
-                    foreach (array_reverse(call_class_method($module, 'ancestors')) as $ancestor) {
+                    foreach (array_reverse($module::ancestors()) as $ancestor) {
                         if (!in_array($ancestor, $mixins['ancestors'])) array_unshift($mixins['ancestors'], $ancestor);
                     }
                 }
                 array_unshift($mixins['ancestors'], $module);
             }
         }
-        call_class_method($class, 'update_derived_modules');
+        $class::update_derived_modules();
     }
     
     static function new_instance($arguments = null) {
         $arguments = func_get_args();
-        return call_class_method(get_called_class(), 'new_instance_array', array($arguments));
+        $class = get_called_class();
+        return $class::new_instance_array($arguments);
     }
     
     static function new_instance_array($arguments = array()) {
-        eval('$instance = '.build_function_call('new '.get_called_class(), $arguments).';');
+        $rc = new \ReflectionClass(get_called_class());
+        $instance = $rc->newInstanceArgs($arguments);
         return $instance;
     }
     
     static function &methods() {
         $class = get_called_class();
-        $mixins = &call_class_method($class, 'mixins');
+        $mixins = &$class::mixins();
         if (!$mixins['methods']) {
             $mixins['methods'] = array();
             $ancestors = array();
@@ -105,7 +107,8 @@ abstract class Module {
             foreach (class_parents($class) as $parent) {
                 if (!in_array($parent, $mixins['ancestors'])) {
                     if (in_array('Module', class_parents($parent))) {
-                        $parent_mixins = call_class_method($parent, __FUNCTION__);
+                    		$method = __FUNCTION__;
+                    		$parent_mixins = $parent::$method();
                         $mixins['ancestors'] = array_merge($mixins['ancestors'], $parent_mixins['ancestors']);
                     } else {
                         array_push($mixins['ancestors'], $parent);
@@ -119,7 +122,7 @@ abstract class Module {
     
     static function &properties() {
         $class = get_called_class();
-        $mixins = call_class_method($class, 'mixins');
+        $mixins = $class::mixins();
         if (!$mixins['properties']) {
             $ancestors = array();
             foreach ($mixins['ancestors'] as $ancestor) {
@@ -143,7 +146,7 @@ abstract class Module {
     
     static function update_derived_modules() {
         $class = get_called_class();
-        $ancestors = call_class_method($class, 'ancestors');
+        $ancestors = $class::ancestors();
         foreach (Module::$mixins as $module => &$mixins) {
             if ($module != $class && in_array($class, $mixins['ancestors'])) {
                 array_splice($mixins['ancestors'], array_search($class, $mixins['ancestors']), count($mixins['ancestors']), $ancestors);

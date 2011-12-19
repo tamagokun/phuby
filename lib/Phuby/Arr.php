@@ -26,11 +26,12 @@ abstract class ArrMethods {
             trigger_error('The first argument in '.$this->class.'::chunk() must be greater than 0', E_WARNING);
             return null;
         } else {
-            $result = call_class_method($this->class, 'new_instance');
+        		$class = $this->class;
+        		$result = $class::new_instance();
             $index = 0;
             foreach ($this as $value) {
                 if ($index++ % $size == 0) {
-                    $result[] = call_class_method($this->class, 'new_instance');
+                		$result[] = $class::new_instance();
                     $result_index = $result->count() - 1;
                 }
                 $result[$result_index][] = $value;
@@ -62,7 +63,8 @@ abstract class ArrMethods {
     }
     
     function flatten() {
-        $result = call_class_method($this->class, 'new_instance');
+    		$class = $this->class;
+    		$result = $class::new_instance();
         foreach ($this as $value) {
             if (is_array($value)) $value = new Arr($value);
             if ($value instanceof Arr) {
@@ -84,7 +86,6 @@ abstract class ArrMethods {
     
     function pack($format) {
         $arguments = array_merge(array($format), $this->array);
-        //return eval('return '.build_function_call('pack', $arguments).';');
         return call_user_func_array("\pack",$arguments);
     }
     
@@ -99,7 +100,8 @@ abstract class ArrMethods {
     }
     
     function rand($quantity = 1) {
-        return call_class_method($this->class, 'new_instance', array(array_rand($this->array, $quantity)));
+    		$class = $this->class;
+    		return $class::new_instance(array_rand($this->array,$quantity));
     }
     
     function rassoc($object) {
@@ -108,7 +110,8 @@ abstract class ArrMethods {
     }
     
     function reverse() {
-        return call_class_method($this->class, 'new_instance', array(array_reverse($this->array)));
+    		$class = $this->class;
+    		return $class::new_instance(array_reverse($this->array));
     }
     
     function shift() {
@@ -118,11 +121,13 @@ abstract class ArrMethods {
     function shuffle() {
         $array = $this->array;
         shuffle($array);
-        return call_class_method($this->class, 'new_instance', array($array));
+        $class = $this->class;
+    		return $class::new_instance(array($array));
     }
     
     function slice($offset, $length) {
-        return call_class_method($this->class, 'new_instance', array(array_slice($this->array, $offset, $length)));
+    		$class = $this->class;
+    		return $class::new_instance(array_slice($this->array,$offset,$length));
     }
     
     function splice($offset, $length = 0, $replacement = array()) {
@@ -140,13 +145,13 @@ abstract class ArrMethods {
     }
     
     function unique() {
-        return call_class_method($this->class, 'new_instance', array(array_unique($this->array)));
+    		$class = $this->class;
+    		return $class::new_instance(array_unique($this->array));
     }
     
     function unshift($arguments) {
         $arguments = func_get_args();
         array_shift($arguments, &$this->array);
-        //return eval('return '.build_function_call('array_unshift', $arguments).';');
     		return call_user_func_array("\array_unshift",&$arguments);
     }
     

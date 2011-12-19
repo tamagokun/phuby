@@ -92,6 +92,11 @@ echo "\n";
 Testing::delegate('delegated', 'Dude');
 $t->delegated();
 
-$t->super();
+//$t->super();
 
+echo $t->test_property;
+
+$t->test_property = "TEST";
+
+echo $t->test_property;
 ?>

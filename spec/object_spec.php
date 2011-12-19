@@ -49,8 +49,8 @@ class Describe_Object extends SimpleSpec {
     function should_raise_error_when_caller_does_not_exists_for_method_super() {
         $t = new Testing;
         //fixme: this is not working yet
-        // $t->super();
-        // $this->should_expect_error();
+        //$t->super();
+        //$this->should_expect_error();
     }
 }
 
