@@ -55,5 +55,3 @@ function a () {
   $args = func_get_args();
   return new Arr($args);
 }
-//Need to do this to bootstrap Phuby classes
-new Object();
