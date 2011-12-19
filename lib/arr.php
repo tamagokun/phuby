@@ -154,7 +154,6 @@ Arr::alias_method('implode', 'join');
 Arr::alias_method('in_groups_of', 'chunk');
 Arr::alias_method('uniq', 'unique');
 
-# Convenience function
 function a () {
   $args = func_get_args();
   return new Arr($args);
