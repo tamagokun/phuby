@@ -90,7 +90,8 @@ abstract class EnumerableMethods {
     }
     
     function filter($callback = null) {
-        return call_class_method($this->class, 'new_instance', array(array_filter($this->array, $callback)));
+    		$class = $this->class;
+    		return $class::new_instance(array_filter($this->array,$callback));
     }
     
     function has_key($key) {
@@ -121,8 +122,9 @@ abstract class EnumerableMethods {
     }
     
     function partition($block) {
-        $passed = call_class_method($this->class, 'new_instance');
-        $failed = call_class_method($this->class, 'new_instance');
+    		$class = $this->class;
+    		$passed = $class::new_instance();
+    		$failed = $class::new_instance();
         foreach ($this as $key => $value) {
             if (evaluate_block($block, array(&$value,&$key))) {
                 $passed[$key] = $value;
@@ -134,7 +136,8 @@ abstract class EnumerableMethods {
     }
     
     function reject($block) {
-        $result = call_class_method($this->class, 'new_instance');
+    		$class = $this->class;
+    		$result = $class::new_instance();
         foreach ($this as $key => $value) if (!evaluate_block($block, array(&$value,&$key))) $result[$key] = $value;
         return $result;
     }
@@ -152,7 +155,8 @@ abstract class EnumerableMethods {
     }
     
     function select($block) {
-        $result = call_class_method($this->class, 'new_instance');
+    		$class = $this->class;
+		    $result = $class::new_instance();
         foreach ($this as $key => $value) if (evaluate_block($block, array(&$value,&$key))) $result[$key] = $value;
         return $result;
     }
@@ -165,13 +169,14 @@ abstract class EnumerableMethods {
         if (is_null($sort_flags)) $sort_flags = SORT_REGULAR;
         $array = $this->array;
         asort($array, $sort_flags);
-        return call_class_method($this->class, 'new_instance', array($array));
+        $class = $this->class;
+        return $class::new_instance($array);
     }
     
     function sort_by($block, $sort_flags = null) {
     		$sorted = $this->inject(new Hash, function($v,$k,$o) use($block) { $o[$k] = evaluate_block($block,array(&$v,&$k)); return $o; })->sort($sort_flags);
-        //$sorted = $this->inject(new Hash, '$object[$key] = evaluate_block(\''.$block.'\', get_defined_vars()); return $object;')->sort($sort_flags);
-        $result = call_class_method($this->class, 'new_instance');
+    		$class = $this->class;
+    		$result = $class::new_instance();
         foreach ($sorted as $key => $value) $result[$key] = $this[$key];
         return $result;
     }

@@ -97,7 +97,8 @@ class Object extends Module {
     
     public static function __callStatic($method, $arguments = array()) {
 	    $result = null;
-	    $methods = call_class_method(get_called_class(),'methods');
+	    $class = get_called_class();
+	    $methods = $class::methods();
 	    if(isset($methods[$method]))
 	    	$result = call_class_method($methods[$method][0][0],$method,$arguments);
 	    return $result;
@@ -107,7 +108,8 @@ class Object extends Module {
         if (isset($this->$property)) {
             return $this->instance_variables[$property];
         } else {
-            $this->instance_variables = array_merge(call_class_method($this->class, 'properties'), $this->instance_variables);
+        		$class = $this->class;
+            $this->instance_variables = array_merge($class::properties(), $this->instance_variables);
             if (isset($this->instance_variables[$property])) {
                 return $this->instance_variables[$property];
             } else {

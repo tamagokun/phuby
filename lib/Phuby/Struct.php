@@ -17,7 +17,8 @@ abstract class StructMethods {
     }
     
     function instance($values) {
-        $instance = call_class_method($this->class, 'new_instance', array($this->members));
+    		$class = $this->class;
+    		$instance = $class::new_instance($this->members);
         $values = func_get_args();
         foreach ($this->members as $key => $member) $instance->$member = $values[$key];
         return $instance;

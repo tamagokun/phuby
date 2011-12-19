@@ -6,12 +6,14 @@ class Hash extends Enumerable { }
 abstract class HashMethods {
     
     function invert() {
-        return call_class_method($this->class, 'new_instance', array(array_flip($this->array)));
+    		$class = $this->class;
+    		return $class::new_instance(array_flip($this->array));
     }
     
     function merge($hash) {
         if ($hash instanceof Enumerable) $hash = $hash->array;
-        return call_class_method($this->class, 'new_instance', array(array_merge($this->array, $hash)));
+        $class = $this->class;
+        return $class::new_instance(array_merge($this->array,$hash));
     }
     
     function shift() {
@@ -19,7 +21,7 @@ abstract class HashMethods {
     }
     
     function to_a() {
-        return $this->inject(new Arr, '$object[] = new A(array($key, $value)); return $object;');
+    		return $this->inject(new Arr, function($v,$k,$o) { $o[] = new Arr(array($key,$value)); return $o;});
     }
     
     function update($hash) {

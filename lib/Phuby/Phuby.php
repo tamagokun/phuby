@@ -1,16 +1,6 @@
 <?php
 namespace Phuby;
 
-function get_class_variable($class, $variable) {
-    //return eval('return '.$class.'::$'.$variable.';');
-    return $class::$variable;
-}
-
-function set_class_variable($class, $variable, $value) {
-    //eval($class.'::$'.$variable.' = $value;');
-    $class::$variable = $value;
-}
-
 function &call_class_method($class, $method, $arguments = array()) {
 		//eval('$result = &'.build_function_call(array($class, $method), $arguments).';');
     $result = &call_class_method_array(array($class,$method),$arguments);
@@ -58,28 +48,6 @@ function evaluate_block($block, $binding = array()) {
     return $proc->call_array(array_values($binding));
 		*/
 		return call_user_func_array($block,$binding);
-}
-
-function build_function_call($function, $arguments = array(), $variable_name = 'arguments') {
-    if (!is_array($function)) $function = array($function);
-    if (is_object($function[0])) { 
-        $function[0] = get_class($function[0]);
-        $join = '->';
-    } else {
-        $join = '::';
-    }
-    return join($join, $function).'('.splat($arguments, $variable_name).')';
-}
-
-function splat($arguments, $variable_name = 'arguments') {
-    $result = '';
-    if (!empty($arguments)) {
-        $result .= '$'.$variable_name.'[0]';
-        for ($i = 1; $i < count($arguments); $i++) {
-            $result .= ', $'.$variable_name.'['.$i.']';
-        }
-    }
-    return $result;
 }
 
 // Convenience function

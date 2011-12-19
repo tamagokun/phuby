@@ -12,7 +12,7 @@ abstract class DelegatorMethods {
             trigger_error('The last argument to delegate() must be an object or a string representing a class or method', E_USER_ERROR);
         } else {
             $class = get_called_class();
-            $methods = &call_class_method($class, 'methods');
+            $methods = &$class::methods();
             foreach ($delegated_methods as $delegated_method) {
                 if (!isset($methods[$delegated_method])) $methods[$delegated_method] = array();
                 array_unshift($methods[$delegated_method], array($receiver, $delegated_method));
