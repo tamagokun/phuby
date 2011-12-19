@@ -87,7 +87,7 @@ echo $t->is_a('Invalid');
 echo "\n";
 
 // $dup = $t->dup();
-// print_r($dup);
+//print_r($dup);
 
 Testing::delegate('delegated', 'Dude');
 $t->delegated();
@@ -99,4 +99,7 @@ echo $t->test_property;
 $t->test_property = "TEST";
 
 echo $t->test_property;
+
+print_r($t);
+
 ?>

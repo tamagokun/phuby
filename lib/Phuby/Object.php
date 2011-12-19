@@ -49,6 +49,10 @@ class Object extends Module {
 							case 1: $result = &$class::$class_method($arguments[0]);break;
 							case 2: $result = &$class::$class_method($arguments[0],$arguments[1]);break;
 							case 3: $result = &$class::$class_method($arguments[0],$arguments[1],$arguments[2]);break;
+							case 4: $result = &$class::$class_method($arguments[0],$arguments[1],$arguments[2],$arguments[3]);break;
+							case 5: $result = &$class::$class_method($arguments[0],$arguments[1],$arguments[2],$arguments[3],$arguments[4]);break;
+							default: $result = call_user_func_array("$class::$class_method",$arguments);
+
 						}
             return $result;
         }
@@ -84,6 +88,10 @@ class Object extends Module {
 									case 1: $result = &$class::$method($arguments[0]);break;
 									case 2: $result = &$class::$method($arguments[0],$arguments[1]);break;
 									case 3: $result = &$class::$method($arguments[0],$arguments[1],$arguments[2]);break;
+									case 4: $result = &$class::$method($arguments[0],$arguments[1],$arguments[2],$arguments[3]);break;
+									case 5: $result = &$class::$method($arguments[0],$arguments[1],$arguments[2],$arguments[3],$arguments[4]);break;
+									default: $result = call_user_func_array("$class::$class_method",$arguments);
+		
 								}
             }
             return $result;
