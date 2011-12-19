@@ -2,6 +2,8 @@
 
 require_once '../phuby.php';
 
+use \Phuby\Object;
+
 class Whoa {
     function super_test($name) {
         return "Hello {$name} from super";

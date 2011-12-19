@@ -2,6 +2,8 @@
 
 require_once '../phuby.php';
 
+use \Phuby\Struct;
+
 // $customer = new Struct('first_name', 'last_name');
 $customer = Struct::new_instance('first_name', 'last_name');
 

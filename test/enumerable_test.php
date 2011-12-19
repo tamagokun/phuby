@@ -2,6 +2,8 @@
 
 require_once '../phuby.php';
 
+use \Phuby\Arr,\Phuby\Hash;
+
 // print_r(Enumerable::methods());
 
 // print_r(Module::$mixins);

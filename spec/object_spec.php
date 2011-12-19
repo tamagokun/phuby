@@ -1,6 +1,8 @@
 <?php
 require 'spec_helper.php';
 
+use \Phuby\Object;
+
 class Describe_Object extends SimpleSpec {
 
     function should_be_able_to_invoke_overloaded_methods() {
