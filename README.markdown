@@ -7,6 +7,7 @@ Important changes are:
 - all `eval()` calls have been removed
 - `Proc` and a number of other features have been replaced by using actual Closure functions rather than a string passed into `eval()`
 - Removing calls by reference where not needed
+- Namespace classes and structure libs to be loaded using PSR-0
 
 # phuby
 
