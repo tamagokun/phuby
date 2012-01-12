@@ -44,16 +44,16 @@ class Object extends Module {
             $class = $methods[$method][0][0];
             $class_method = $methods[$method][0][1];
             switch(count($arguments))
-						{
-							case 0: $result = &$class::$class_method();break;
-							case 1: $result = &$class::$class_method($arguments[0]);break;
-							case 2: $result = &$class::$class_method($arguments[0],$arguments[1]);break;
-							case 3: $result = &$class::$class_method($arguments[0],$arguments[1],$arguments[2]);break;
-							case 4: $result = &$class::$class_method($arguments[0],$arguments[1],$arguments[2],$arguments[3]);break;
-							case 5: $result = &$class::$class_method($arguments[0],$arguments[1],$arguments[2],$arguments[3],$arguments[4]);break;
-							default: $result = call_user_func_array("$class::$class_method",$arguments);
+			{
+				case 0: $result = &$class::$class_method();break;
+				case 1: $result = &$class::$class_method($arguments[0]);break;
+				case 2: $result = &$class::$class_method($arguments[0],$arguments[1]);break;
+				case 3: $result = &$class::$class_method($arguments[0],$arguments[1],$arguments[2]);break;
+				case 4: $result = &$class::$class_method($arguments[0],$arguments[1],$arguments[2],$arguments[3]);break;
+				case 5: $result = &$class::$class_method($arguments[0],$arguments[1],$arguments[2],$arguments[3],$arguments[4]);break;
+				default: $result = call_user_func_array("$class::$class_method",$arguments);
 
-						}
+			}
             return $result;
         }
     }
@@ -65,7 +65,7 @@ class Object extends Module {
         if (empty($caller)) {
             trigger_error($this->class.'::super() must be called from inside of an instance method', E_USER_ERROR);
         } else {
-        		$class = $this->class;
+        	$class = $this->class;
             $methods = &$class::methods();
             $aliases = $class::aliases();
             $method = $caller['function'];
@@ -81,18 +81,18 @@ class Object extends Module {
                 array_unshift($methods[$method], $callee);
             } else {
                 //eval('$result = &'.build_function_call(array(get_parent_class($this), $method), $arguments).';');
-            		$class = get_parent_class($this);
-            		switch(count($arguments))
-								{
-									case 0: $result = &$class::$method();break;
-									case 1: $result = &$class::$method($arguments[0]);break;
-									case 2: $result = &$class::$method($arguments[0],$arguments[1]);break;
-									case 3: $result = &$class::$method($arguments[0],$arguments[1],$arguments[2]);break;
-									case 4: $result = &$class::$method($arguments[0],$arguments[1],$arguments[2],$arguments[3]);break;
-									case 5: $result = &$class::$method($arguments[0],$arguments[1],$arguments[2],$arguments[3],$arguments[4]);break;
-									default: $result = call_user_func_array("$class::$class_method",$arguments);
+            	$class = get_parent_class($this);
+            	switch(count($arguments))
+				{
+					case 0: $result = &$class::$method();break;
+					case 1: $result = &$class::$method($arguments[0]);break;
+					case 2: $result = &$class::$method($arguments[0],$arguments[1]);break;
+					case 3: $result = &$class::$method($arguments[0],$arguments[1],$arguments[2]);break;
+					case 4: $result = &$class::$method($arguments[0],$arguments[1],$arguments[2],$arguments[3]);break;
+					case 5: $result = &$class::$method($arguments[0],$arguments[1],$arguments[2],$arguments[3],$arguments[4]);break;
+					default: $result = call_user_func_array("$class::$class_method",$arguments);
 		
-								}
+				}
             }
             return $result;
         }
@@ -116,7 +116,7 @@ class Object extends Module {
         if (isset($this->$property)) {
             return $this->instance_variables[$property];
         } else {
-        		$class = $this->class;
+        	$class = $this->class;
             $this->instance_variables = array_merge($class::properties(), $this->instance_variables);
             if (isset($this->instance_variables[$property])) {
                 return $this->instance_variables[$property];

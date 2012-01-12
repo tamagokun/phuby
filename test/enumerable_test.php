@@ -26,16 +26,16 @@ foreach ($e as $k => $v) {
 }
 
 echo "***COLLECT***\n";
-print_r($e->collect('$key;')->array);
+print_r($e->collect(function($v,$k) { return $k; })->array);
 
 echo "***ALIAS METHOD MAP***\n";
-print_r($e->map('$key;')->array);
+print_r($e->map(function($v,$k) { return $k; })->array);
 
-if ($e->any('$key == 1;')) echo "true\n";
-if ($e->any('$key == 4;')) echo "true\n";
+if($e->any(function($v,$k){ return $k == 1;})) echo "true\n";
+if($e->any(function($v,$k){ return $k == 4;})) echo "true\n";
 
 echo "***INJECT***\n";
-print_r($e->inject(array(), '$object["injected_$key"] = $value;$object;'));
+print_r($e->inject(array(), function($v,$k,$o){ $o["injected_$k"] = $v; return $o;}));
 
 $e = new Hash;
 $e['short'] = 4;
@@ -49,7 +49,7 @@ echo "***SORT***\n";
 print_r($e->sort()->array);
 
 echo "***SORT_BY***\n";
-print_r($e->sort_by('strlen($key);')->array);
+print_r($e->sort_by(function($v,$k){ return strlen($k); })->array);
 
 echo "***FLATTEN***\n";
 $e = new Arr(array(1, 2, 3, new Arr(array(4, 5, 6, new Arr(array(7, 8, 9))))));
