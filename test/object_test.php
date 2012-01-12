@@ -12,6 +12,11 @@ class Whoa {
     function testing() {
         return 'cooool';
     }
+    
+    static function thehell($name)
+    {
+        return "BLAH $name";
+    }
 }
 
 class Dude {
@@ -50,6 +55,8 @@ class Testing extends Object {
     
 }
 Testing::extend('Whoa', 'Dude');
+
+echo "<pre>";
 
 $t = new Testing;
 
@@ -100,6 +107,7 @@ $t->test_property = "TEST";
 
 echo $t->test_property;
 
-print_r($t);
+echo Testing::thehell("man");
 
+echo "</pre>";
 ?>

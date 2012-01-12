@@ -33,14 +33,14 @@ class Object extends Module {
     }
     
     function send_array($method, $arguments = array()) {
-    		$class = $this->class;
+    	$class = $this->class;
         $methods = $class::methods();
         if (!$this->respond_to($method)) {
             trigger_error('Undefined method '.$this->class.'::'.$method.'()', E_USER_ERROR);
         } else if (!isset($methods[$method]) || empty($methods[$method])) {
             $result = call_user_func_array(array($this, $method), $arguments);
             return $result;
-        } else {
+        } else {        	
             $class = $methods[$method][0][0];
             $class_method = $methods[$method][0][1];
             switch(count($arguments))
@@ -108,7 +108,7 @@ class Object extends Module {
 	    $class = get_called_class();
 	    $methods = $class::methods();
 	    if(isset($methods[$method]))
-	    	$result = call_class_method($methods[$method][0][0],$method,$arguments);
+	    	$result = call_user_func_array(array($methods[$method][0][0],$method),$arguments);
 	    return $result;
     }
     
